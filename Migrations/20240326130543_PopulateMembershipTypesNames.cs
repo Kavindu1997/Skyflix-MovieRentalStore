@@ -5,7 +5,7 @@
 namespace SkyFlix.Migrations
 {
     /// <inheritdoc />
-    public partial class PopulateMembershipTypesWithName : Migration
+    public partial class PopulateMembershipTypesNames : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

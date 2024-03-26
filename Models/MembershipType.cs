@@ -1,3 +1,5 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace SkyFlix.Models
 {
     public class MembershipType

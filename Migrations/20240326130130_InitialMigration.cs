@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using MySql.EntityFrameworkCore.Metadata;
 
 #nullable disable
@@ -19,6 +20,7 @@ namespace SkyFlix.Migrations
                 columns: table => new
                 {
                     Id = table.Column<byte>(type: "tinyint unsigned", nullable: false),
+                    Name = table.Column<string>(type: "longtext", nullable: true),
                     SignUpFee = table.Column<short>(type: "smallint", nullable: false),
                     DurationInMonths = table.Column<byte>(type: "tinyint unsigned", nullable: false),
                     DiscountRate = table.Column<byte>(type: "tinyint unsigned", nullable: false)
@@ -50,7 +52,8 @@ namespace SkyFlix.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("MySQL:ValueGenerationStrategy", MySQLValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(type: "longtext", nullable: true),
-                    IsSubscribedToNewsLetter = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    BirthDate = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    IsSubscribedToNewsLetter = table.Column<bool>(type: "tinyint(255)", maxLength: 255, nullable: false),
                     MembershipTypeId = table.Column<byte>(type: "tinyint unsigned", nullable: false)
                 },
                 constraints: table =>

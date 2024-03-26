@@ -1,20 +1,31 @@
 using Microsoft.AspNetCore.Mvc;
+using SkyFlix.Data;
 using SkyFlix.Models;
 
 namespace SkyFlix.Controllers
 {
     public class CustomersController : Controller
     {
+        private AppDbContext _context;
+
+        public CustomersController(AppDbContext context)
+        {
+            _context = context;
+        }
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
         public ViewResult Index()
         {
-            var customers = GetCustomers();
+            var customers = _context.Customers.ToList();
 
             return View(customers);
         }
 
         public ActionResult Details(int id)
         {
-            var customer = GetCustomers().SingleOrDefault(c => c.Id == id);
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return NotFound();

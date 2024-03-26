@@ -1,17 +1,42 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SkyFlix.Data;
 using SkyFlix.Models;
 using SkyFlix.ViewModels;
 
 
 namespace SkyFlix.Controllers
 {
-    public class MoviesController:Controller{
+    public class MoviesController : Controller
+    {
+
+        private AppDbContext _context;
+
+        public MoviesController(AppDbContext context)
+        {
+            _context = context;
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
 
         public ViewResult Index()
         {
-            var movies = GetMovies();
+            var movies = _context.Movies.Include(m => m.Genre).ToList();
 
-            return View(movies);    
+            return View(movies);
+        }
+
+        public ActionResult Details(int id)
+        {
+            var movie = _context.Movies.Include(m => m.Genre).SingleOrDefault(m => m.Id == id);
+
+            if (movie == null)
+                return NotFound();
+
+            return View(movie);
         }
 
         private IEnumerable<Movie> GetMovies()

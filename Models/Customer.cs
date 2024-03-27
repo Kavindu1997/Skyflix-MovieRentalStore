@@ -7,6 +7,7 @@ namespace SkyFlix.Models
         public int Id { get; set; }
         public string? Name { get; set; }
 
+        [Display(Name = "Date of Birth")]
         public DateTime? BirthDate { get; set; }
 
         [Required]

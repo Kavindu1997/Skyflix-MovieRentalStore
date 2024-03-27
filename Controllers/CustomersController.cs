@@ -34,6 +34,11 @@ namespace SkyFlix.Controllers
             return View(customer);
         }
 
+        public ViewResult New()
+        {
+            return View();
+        }
+
         private IEnumerable<Customer> GetCustomers()
         {
             return new List<Customer>

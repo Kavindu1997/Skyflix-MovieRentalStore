@@ -14,6 +14,9 @@ namespace SkyFlix.Models
         [StringLength(255)]
         public bool IsSubscribedToNewsLetter { get; set; }
         public MembershipType? MembershipType { get; set; }
+
+
+        [Display(Name = "Membership Type")]
         public byte MembershipTypeId { get; set; }
 
     }

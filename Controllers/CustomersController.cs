@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkyFlix.Data;
 using SkyFlix.Models;
+using SkyFlix.ViewModels;
 
 namespace SkyFlix.Controllers
 {
@@ -36,7 +37,14 @@ namespace SkyFlix.Controllers
 
         public ViewResult New()
         {
-            return View();
+            var membershipTypes = _context.MembershipTypes.ToList();
+
+            var viewModel = new NewCustomerViewModel
+            {
+                MembershipTypes = membershipTypes
+            };
+
+            return View(viewModel);
         }
 
         private IEnumerable<Customer> GetCustomers()

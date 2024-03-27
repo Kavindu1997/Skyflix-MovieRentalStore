@@ -1,4 +1,4 @@
-@model SkyFlix.Models.Customer
+@model SkyFlix.ViewModels.NewCustomerViewModel
 
 @{
     ViewData["Title"] = "New";
@@ -7,19 +7,24 @@
 <h2>New Customer</h2>
 
 @using(Html.BeginForm("Create","Customers")){
-    <div class="form-group">
-         @Html.LabelFor(m=>m.Name)
-         @Html.TextBoxFor(m=>m.Name, new {@class="form-control"})
+    <div class="form-group mb-3">
+         @Html.LabelFor(m=>m.Customer!.Name)
+         @Html.TextBoxFor(m=>m.Customer!.Name, new {@class="form-control"})
     </div>
 
-    <div class="form-group">
-         @Html.LabelFor(m=>m.BirthDate)
-         @Html.TextBoxFor(m=>m.BirthDate, new {@class="form-control"})
+    <div class="form-group mb-3">
+         @Html.LabelFor(m=>m.Customer!.BirthDate)
+         @Html.TextBoxFor(m=>m.Customer!.BirthDate, new {@class="form-control"})
     </div>
 
-     <div class="checkbox">
+     <div class="checkbox mb-3">
          <label>
-             @Html.CheckBoxFor(m=>m.IsSubscribedToNewsLetter) Subscribed to Newsletter?
+             @Html.CheckBoxFor(m=>m.Customer!.IsSubscribedToNewsLetter) Subscribed to Newsletter?
          </label>
+    </div>
+
+    <div class="form-group mb-3">
+         @Html.LabelFor(m=>m.Customer!.MembershipTypeId)
+         @Html.DropDownListFor(m=>m.Customer!.MembershipTypeId,new SelectList(Model.MembershipTypes,"Id","Name"), "Select Membership Type", new {@class="form-control"})
     </div>
 }

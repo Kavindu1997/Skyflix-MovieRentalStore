@@ -49,6 +49,7 @@ namespace SkyFlix.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Save(Customer customer)
         {
 

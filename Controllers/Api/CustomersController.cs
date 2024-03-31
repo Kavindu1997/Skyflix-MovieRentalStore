@@ -55,7 +55,7 @@ namespace SkyFlix.Controllers.Api
             return Created(new Uri(uri), customerDto);
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public ActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
@@ -73,7 +73,7 @@ namespace SkyFlix.Controllers.Api
 
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public ActionResult DeleteCustomer(int id)
         {
             var customerInDb = _context.Customers.SingleOrDefault(c => c.Id == id);
@@ -82,6 +82,8 @@ namespace SkyFlix.Controllers.Api
                 return NotFound();
 
             _context.Customers.Remove(customerInDb);
+            _context.SaveChanges();
+
             return Ok();
         }
 

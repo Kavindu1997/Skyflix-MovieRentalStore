@@ -1,10 +1,14 @@
 using Microsoft.EntityFrameworkCore;
 using SkyFlix.Data;
+using SkyFlix.MappingProfiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+// Configure AutoMapper
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseMySQL(builder.Configuration.GetConnectionString("DefaultConnection")!));

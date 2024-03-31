@@ -1,5 +1,7 @@
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using SkyFlix.Data;
+using SkyFlix.Dto;
 using SkyFlix.Models;
 
 
@@ -10,43 +12,51 @@ namespace SkyFlix.Controllers.Api
     public class CustomersController : ControllerBase
     {
         private AppDbContext _context;
+        private readonly IMapper _mapper;
 
-        public CustomersController(AppDbContext context)
+        public CustomersController(AppDbContext context, IMapper mapper)
         {
             _context = context;
+            _mapper = mapper;
         }
 
         [HttpGet]
-        public IEnumerable<Customer> GetCustomers()
+        public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList();
+            return _context.Customers.ToList().Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Customer> GetCustomer(int id)
+        public ActionResult<CustomerDto> GetCustomer(int id)
         {
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
 
             if (customer == null)
                 return NotFound();
 
-            return customer;
+            return Ok(_mapper.Map<Customer, CustomerDto>(customer));
         }
 
         [HttpPost]
-        public ActionResult<Customer> CreateCustomer(Customer customer)
+        public ActionResult<CustomerDto> CreateCustomer(CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
+            var customer = _mapper.Map<CustomerDto, Customer>(customerDto);
+
             _context.Customers.Add(customer);
             _context.SaveChanges();
 
-            return customer;
+            customerDto.Id = customer.Id;
+
+            var uri = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}{HttpContext.Request.Path}{customerDto.Id}";
+
+            return Created(new Uri(uri), customerDto);
         }
 
         [HttpPut]
-        public ActionResult UpdateCustomer(int id, Customer customer)
+        public ActionResult UpdateCustomer(int id, CustomerDto customerDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -56,11 +66,7 @@ namespace SkyFlix.Controllers.Api
             if (customerInDb == null)
                 return NotFound();
 
-
-            customerInDb.Name = customer.Name;
-            customerInDb.BirthDate = customer.BirthDate;
-            customerInDb.IsSubscribedToNewsLetter = customer.IsSubscribedToNewsLetter;
-            customerInDb.MembershipTypeId = customer.MembershipTypeId;
+            _mapper.Map(customerDto, customerInDb);
 
             _context.SaveChanges();
             return Ok();

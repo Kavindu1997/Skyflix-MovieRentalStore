@@ -11,6 +11,8 @@ namespace SkyFlix.MappingProfiles
         {
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerDto, Customer>();
+
+            CreateMap<MembershipType, MembershipTypeDto>();
         }
     }
 }

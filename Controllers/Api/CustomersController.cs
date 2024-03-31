@@ -1,5 +1,6 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SkyFlix.Data;
 using SkyFlix.Dto;
 using SkyFlix.Models;
@@ -23,7 +24,9 @@ namespace SkyFlix.Controllers.Api
         [HttpGet]
         public IEnumerable<CustomerDto> GetCustomers()
         {
-            return _context.Customers.ToList().Select(_mapper.Map<Customer, CustomerDto>);
+            return _context.Customers.Include(c => c.MembershipType)
+                                     .ToList()
+                                     .Select(_mapper.Map<Customer, CustomerDto>);
         }
 
         [HttpGet("{id}")]

@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using SkyFlix.Models;
 
 namespace SkyFlix.Dto
 {
@@ -16,6 +15,7 @@ namespace SkyFlix.Dto
 
         public bool IsSubscribedToNewsLetter { get; set; }
 
+        public MembershipTypeDto? MembershipType { get; set; }
         public byte MembershipTypeId { get; set; }
     }
 }

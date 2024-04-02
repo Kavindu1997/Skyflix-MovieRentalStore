@@ -22,11 +22,13 @@ namespace SkyFlix.Controllers.Api
         }
 
         [HttpGet]
-        public IEnumerable<CustomerDto> GetCustomers()
+        public ActionResult<CustomerDto> GetCustomers()
         {
-            return _context.Customers.Include(c => c.MembershipType)
+            var customerDtos = _context.Customers.Include(c => c.MembershipType)
                                      .ToList()
                                      .Select(_mapper.Map<Customer, CustomerDto>);
+
+            return Ok(customerDtos);
         }
 
         [HttpGet("{id}")]

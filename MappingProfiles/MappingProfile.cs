@@ -18,9 +18,8 @@ namespace SkyFlix.MappingProfiles
                    .ForMember(c => c.Id, opt => opt.Ignore());
 
 
-
-
             CreateMap<MembershipType, MembershipTypeDto>();
+            CreateMap<Genre, GenreDto>();
         }
     }
 }
